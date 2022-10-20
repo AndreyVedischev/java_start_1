@@ -3,7 +3,7 @@ import java.util.Arrays;
 
 public class SecondTask {
     public static void main(String[] args) {
-        System.out.println("Решение задачи 283");
+        System.out.println("Решение задачи 27");
 
         int[] num= {0,1,2,2,3,0,4,2};
         int val = 2;
