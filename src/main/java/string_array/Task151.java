@@ -7,7 +7,6 @@ public class Task151 {
         System.out.println("Решение задачи 151");
 
         String s = "a good   example";
-        s = s.trim();
         int wordStart = 0;
         int wordEnd = 0;
         int i = s.length()-1;
@@ -19,18 +18,23 @@ public class Task151 {
                 if (wordEnd == 0) {
                     result.append(s.charAt(0));
                     break;
-                } else {
+                }
+                else {
                     while (s.charAt(i) != ' ' && i != 0) {
                         i--;
                     }
                     wordStart = i;
                 }
-                result.append(s.substring(wordStart, wordEnd + 1).trim()).append(' ');
+                result.append(s.substring(wordStart + 1, wordEnd + 1)).append(' ');
                 if (i == 0) break;
-            } else {
+            }
+            else {
                 i--;
             }
         }
-        System.out.println(result.toString().trim());
+        if (result.charAt(result.length()-1) == ' ') {
+            result = result.deleteCharAt(result.length() - 1);
+        }
+        System.out.println(result.toString());
     }
 }
