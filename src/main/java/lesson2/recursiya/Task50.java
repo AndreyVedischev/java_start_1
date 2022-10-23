@@ -3,16 +3,21 @@ package lesson2.recursiya;
 public class Task50 {
     public static void main(String[] args) {
         System.out.println("Решение задачи 50: ");
-        System.out.println(myPow(2.1,3));
+        System.out.println(myPow(2,10));
     }
     public static double myPow(double x, int n) {
-        if (x < 0) return (n % 2 == 0) ? myPow(-x, n) : -myPow(-x, n);
-        if (x == 0 || x == 1) return x;
-        if (n < 0) return 1.0 / myPow(x,-n);
-        if (n == 0) return 1.0;
-        if (n == 1) return x;
-        double half = myPow(x,n/2);
-        if (n % 2 == 0) return half * half;
-        else return x * half * half;
+        if (n == Integer.MAX_VALUE) return x;
+        else if (n == Integer.MIN_VALUE) return (x == 1 || x == -1) ? 1 : 0;
+        if(n < 0) {
+            x = 1 / x;
+            n *= -1;
+        }
+        double ans = 1;
+        while (n > 0) {
+            if(n % 2 == 1) ans = ans * x;
+            x = x * x;
+            n = n >> 1;
+        }
+        return ans;
     }
 }
