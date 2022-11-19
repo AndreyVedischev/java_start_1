@@ -2,9 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Task1396_Design_Underground_System {
-    public static void main(String[] args) {
-        System.out.println("Решение задачи: ");
-    }
+
 
 }
 
@@ -33,12 +31,21 @@ class UndergroundSystem {
     }
 
     public double getAverageTime(String startStation, String endStation) {
-        String rout = getRoutKey(startStation,endStation);
+        String rout = getRoutKey(startStation, endStation);
         return routeMap.get(rout).getAverageTime();
     }
 
     private String getRoutKey(String startStation, String endStation) {
         return startStation + "->" + endStation;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Решение задачи: ");
+        UndergroundSystem system = new UndergroundSystem();
+        system.checkIn(33, "aa", 8);
+        system.checkOut(33, "b", 22);
+        system.getAverageTime("aa", "b");
+        System.out.println(system.getAverageTime("aa", "b"));
     }
 
 
