@@ -7,8 +7,8 @@ public class Task1396_Design_Underground_System {
 }
 
 class UndergroundSystem {
-    private Map<Integer, Client> clientMap;
-    private Map<String, Route> routeMap;
+    private final Map<Integer, Client> clientMap;
+    private final Map<String, Map<String, Route>> routeMap;
 
     public UndergroundSystem() {
         clientMap = new HashMap<>();
@@ -17,26 +17,28 @@ class UndergroundSystem {
     }
 
     public void checkIn(int id, String stationName, int t) {
-        Client client = new Client(id, stationName, t);
+        Client client = new Client(stationName, t);
         clientMap.put(id, client);
 
     }
 
     public void checkOut(int id, String stationName, int t) {
         Client client = clientMap.get(id);
-        String rout = getRoutKey(client.getStationName(), stationName);
-        routeMap.putIfAbsent(rout, new Route(0, 0));
-        routeMap.get(rout).addTime(t - client.getTimeStart());
+        routeMap.putIfAbsent(client.inStation, new HashMap<>());
+        routeMap.get(client.inStation).putIfAbsent(stationName, new Route(0, 0));
 
+        int travelTime = t - client.getTimeStart();
+        Route route = getRout(client.inStation, stationName);
+        route.addTime(travelTime);
     }
 
     public double getAverageTime(String startStation, String endStation) {
-        String rout = getRoutKey(startStation, endStation);
-        return routeMap.get(rout).getAverageTime();
+        Route route = getRout(startStation, endStation);
+        return route.getAverageTime();
     }
 
-    private String getRoutKey(String startStation, String endStation) {
-        return startStation + "->" + endStation;
+    private Route getRout(String startStation, String endStation) {
+        return routeMap.get(startStation).get(endStation);
     }
 
     public static void main(String[] args) {
@@ -49,20 +51,18 @@ class UndergroundSystem {
     }
 
 
-    class Client {
-        private int id;
-        private String stationName;
-        private int timeStart;
+    static class Client {
+        private final String inStation;
+        private final int timeStart;
 
-        public Client(int id, String stationName, int time) {
-            this.id = id;
-            this.stationName = stationName;
+        public Client(String inStation, int time) {
+            this.inStation = inStation;
             this.timeStart = time;
 
         }
 
-        public String getStationName() {
-            return this.stationName;
+        public String getInStation() {
+            return this.inStation;
         }
 
         public int getTimeStart() {
@@ -70,7 +70,7 @@ class UndergroundSystem {
         }
     }
 
-    class Route {
+    static class Route {
         private int time;
         private int tripCounter;
 
